@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class PostsController extends Controller
 {
@@ -23,7 +24,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -34,7 +35,20 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "titulo" => "required",
+            "extracto" => "required",
+            "contenido"=> "required"
+            ]);
+            $post = new Post();
+            $post->titulo = $request->titulo;
+            $post->extracto = $request->extracto;
+            $post->contenido = $request->contenido;
+            $post->caducable = $request->caducable;
+            $post->comentable = $request->comentable;
+            $post->privado = $request -> privado;
+            $post->save();
+            return redirect()->route("posts.show", $post->id);
     }
 
     /**
@@ -45,7 +59,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('yourPost')->with($id);
     }
 
     /**
